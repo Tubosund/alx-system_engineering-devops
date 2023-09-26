@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Define the SSH private key file, remote user, and remote server address
 private_key="~/.ssh/school"
