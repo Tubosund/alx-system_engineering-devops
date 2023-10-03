@@ -1,30 +1,14 @@
 #!/usr/bin/env bash
-# Configure your Nginx server to have a custom 404 page
+# script to install nginx and configure redirect and error page 404
 
-apt-get update
-apt-get install -y nginx
+sudo apt-get -y update
+sudo apt-get -y install nginx
 
-mkdir /etc/nginx/html
-touch /etc/nginx/html/index.html
-echo "Hello World!" > /etc/nginx/html/index.html
-touch /etc/nginx/html/404.html
-echo "Ceci n'est pas une page" > /etc/nginx/html/404.html
-
-printf %s "server {
-    listen 80;
-    listen [::]:80 default_server;
-    root   /etc/nginx/html;
-    index  index.html index.htm;
-
-    location /redirect_me {
-        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
-    }
-
-    error_page 404 /404.html;
-    location /404 {
-      root /etc/nginx/html;
-      internal;
-    }
-}" > /etc/nginx/sites-available/default
-
-service nginx restart
+echo "Hello world!" | sudo tee /var/www/html/index.html
+page_red="\n\tlocation /redirect_me {\n\t\treturn 301 https://github.com/eberechi10"
+sudo sed -i "37i\ $page_red" /etc/nginx/sites-available/default
+echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html
+404_page="\n\terror_page 404 /404.html;\n\tlocation = /404.html {\n\t\troot /var/www/html;\n\t\tinternal;\n\t}\n"
+sudo sed -i "37i\ $404_page" /etc/nginx/sites-available/default
+sudo service nginx stop
+sudo service nginx start
