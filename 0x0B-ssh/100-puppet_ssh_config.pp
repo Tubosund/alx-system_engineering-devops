@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # make changes to config file using Puppet
 
 include stdlib
