@@ -6,9 +6,9 @@ apt-get -y install haproxy
 
 echo "
 frontend tubosundayo.tech-frontend
-        bind *:80
-        mode http
+        bind 0:80
         default_backend tubosundayo.tech-backend
+
 backend tubosundayo.tech-backend
         balance roundrobin
         server 297923 web-01 54.210.195.223:80 check
